@@ -1,0 +1,31 @@
+body {
+  min-width:256px;
+  overflow-x:hidden;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+ul, li {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.li-user {
+  list-style-image: url(user_gray.png);
+  list-style-position: inside;
+}
+
+.li-userM {
+  list-style-image: url(user.png);
+  list-style-position: inside;
+}
+
+.li-userF {
+  list-style-image: url(user_female.png);
+  list-style-position: inside;
+}
+
+.li-userp {
+  list-style-image: url(phone.png);
+  list-style-position: inside;
+}

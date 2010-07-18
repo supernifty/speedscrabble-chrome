@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link id="base_stylesheet" rel="stylesheet" type="text/css" href="main.css">
+<script type="text/javascript" src="yui.js"></script> 
+<script type="text/javascript">
+var server = "http://www.supernifty.com.au/"
+function init() {
+  chrome.browserAction.setBadgeText( { 'text': '.' } );
+  chrome.browserAction.setBadgeBackgroundColor( { 'color': [192,192,192,255] } );
+  YAHOO.util.Connect.asyncRequest('POST', server + "speed_scrabble_server.php", { success: success, failure: failed }, "json=" + YAHOO.lang.JSON.stringify({ "command": "public_state" }));
+}
+
+function success(o) {
+  var result = YAHOO.lang.JSON.parse(o.responseText)
+  var html = '';
+  if ( result['waiting'].length > 0 ) {
+    html = '<b>Waiting</b><ul>';
+    for ( var i = 0; i < result['waiting'].length; i++ ) {
+      var item = result['waiting'][i];
+      html += '<li class="li-user' + item['gender'] + '"><a target="_blank" href="' + server + 'speed_scrabble_profile.php?id=' + item['id'] + '">' + item['name'] + '</a></li>';
+    }
+    html += '</ul>';
+  }
+  if ( result['playing'].length > 0 ) {
+    html +='<b>Playing</b><ul>';
+    for ( var i = 0; i < result['playing'].length; i++ ) {
+      var item = result['playing'][i];
+      html += '<li class="li-user' + item['gender'] + '"><a target="_blank" href="' + server + 'speed_scrabble_profile.php?id=' + item['id'] + '">' + item['name'] + '</a></li>';
+    }
+  }
+  html += '</ul>';
+  document.getElementById( "content" ).innerHTML = html;
+  var total = result['waiting'].length + result['playing'].length;
+  if ( total > 0 ) {
+    chrome.browserAction.setBadgeText( { 'text': '' + total } );
+    chrome.browserAction.setBadgeBackgroundColor( { 'color': [192,0,0,255] } );
+    chrome.browserAction.setTitle( { 'title': total + ' player' + ( total==1 ? '' : 's' ) } );
+  }
+  else {
+    chrome.browserAction.setBadgeText( { 'text': '' } );
+    chrome.browserAction.setTitle( { 'title': 'Speed Scrabble' } );
+  }
+}
+
+function failed() {
+  document.getElementById( "content" ).innerHTML = '<b>Sorry!</b> Failed to get Speed Scrabble status. Please try again later.';
+}
+
+YAHOO.util.Event.onDOMReady(init);
+</script>
+</head>
+<body>
+<div id="content">Please wait...</div>
+<br/>
+<img src="accept.png" border="0"/><a target="_blank" href="http://www.supernifty.com.au/speed_scrabble.php">Play Speed Scrabble</a>
+</body>
+</html>

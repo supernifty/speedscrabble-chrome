@@ -1,0 +1,18 @@
+{
+  "name": "Speed Scrabble Notifier",
+  "version": "0.1",
+  "description": "Notifies you of happenings in Speed Scrabble",
+  "icons": {
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "browser_action": {
+    "default_icon": "icon-19.png",
+    "default_title": "Speed Scrabble",
+    "popup": "popup.html"
+  },
+  "background_page": "background.html",
+  "permissions": [
+    "http://www.supernifty.com.au/speed_scrabble_server.php"
+  ]
+}
